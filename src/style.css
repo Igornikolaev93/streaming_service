@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+
+:root {
+  --font-play: 'Play', sans-serif;
+}
+
+
+
+body{
+    background-color: rgb(6, 6, 54);
+    font-family: var(--font-play);
+    max-width: 1280px;
+    width: 100%;
+    padding: 0 80px;
+    margin: 0 auto;
+}
