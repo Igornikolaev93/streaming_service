@@ -3,8 +3,6 @@
 import {computed, ref} from 'vue';
 import { storeToRefs } from 'pinia';
 import type {Product} from '@/types/product';
-//import MovieCard from '@/components/MovieCard.vue';
-
 import RandomMowie from '@/components/RandomMovie.vue'
 
 const isLoading = ref(false)
@@ -22,9 +20,7 @@ const message = ref('')
 
  const res = await fetch('https://cinemaguide.skillbox.cc/movie/random')
  const data= await res.json()
-
-//products.value = Object.assign({},data)
-products.value = [data]
+ products.value = [data]
  isLoading.value = false
 }
 
@@ -35,8 +31,6 @@ loadProducts()
 
 <template >
   <div v-if="!isLoading">
-   <!-- <div class="carts">
-    </div>-->
     <div class="catalogs">
       <RandomMowie  v-for = "product in  products"
        :key ="product.id"

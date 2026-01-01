@@ -88,7 +88,7 @@ const isInFavorites = (movieId: number): boolean => {
     }
     users.value.push(newUser)
     
-    // Also save to localStorage for persistence
+    
     const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
     storedUsers.push(newUser)
     localStorage.setItem('registeredUsers', JSON.stringify(storedUsers))
@@ -133,14 +133,13 @@ const isInFavorites = (movieId: number): boolean => {
     message.value = ''
     localStorage.removeItem('currentUser')
     
-    // Also call logout endpoint to clear server session
+    
     fetch('https://cinemaguide.skillbox.cc/auth/logout', {
       method: 'POST',
       credentials: 'include'
     }).catch(err => console.error('Logout error:', err))
   }
 
-  // Check if user is authenticated by verifying with server
   async function checkAuthStatus() {
     try {
       const response = await fetch('https://cinemaguide.skillbox.cc/profile', {
@@ -167,21 +166,18 @@ const isInFavorites = (movieId: number): boolean => {
     }
   }
 
-  // Initialize users from localStorage on store creation
+  
   getUsers()
 
-  // Check auth status on store creation
   checkAuthStatus()
 
   return {
-    // State
     users,
     message,
     isAuthorized,
     currentUser,
     showLoginModal,
      favorites,
-    // Actions
     addUser,
     getUsers,
     updateSharedValue,
@@ -189,7 +185,6 @@ const isInFavorites = (movieId: number): boolean => {
     setCurrentUser,
     logout,
     checkAuthStatus,
-     //favorites,
     addToFavorites,
     removeFromFavorites,
     isInFavorites,

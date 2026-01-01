@@ -168,8 +168,7 @@ onMounted(() => {
               class="genre-image" 
               :src="genreImages[genreName]" 
               :alt="`Фильмы в жанре ${genreName}`"
-              @error="(e) => { 
-                
+              @error="(e) => {                
                 e.target.style.display = 'none';
                 const fallback = e.target.parentElement?.querySelector('.genre-gradient-fallback') as HTMLElement;
                 if (fallback) fallback.style.display = 'flex';

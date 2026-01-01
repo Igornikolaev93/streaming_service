@@ -10,8 +10,8 @@ const router = useRouter()
 const currentUser = ref<User | null>(null)
 const searchQuery = ref('')
 const showSearchDropdown = ref(false)
-const allMovies = ref<any[]>([]) // Store ALL movies here
-const filteredMovies = ref<any[]>([]) // Store filtered movies here
+const allMovies = ref<any[]>([]) 
+const filteredMovies = ref<any[]>([]) 
 const isLoading = ref(false)
 const selectedMovie = ref(null)
 
@@ -21,22 +21,22 @@ const elem= (el:any)=>{
 
 }
 
-// Check authentication status when app loads
+
 onMounted(async () => {
   await user.checkAuthStatus()
-  // Load all movies when app starts
+  
   getAllMovies()
 })
 
-// Sync search query with store
+
 watch(searchQuery, (newValue) => {
   user.updateSharedValue(newValue)
 })
 
-// Watch for search query changes with debouncing
+
 let searchTimeout: NodeJS.Timeout | null = null
 
-// Watch main search query for filtering
+
 watch(searchQuery, (newQuery) => {
   if (searchTimeout) {
     clearTimeout(searchTimeout)
@@ -44,10 +44,10 @@ watch(searchQuery, (newQuery) => {
   
   searchTimeout = setTimeout(() => {
     filterMovies(newQuery)
-  }, 300) // 300ms debounce
+  }, 300) 
 })
 
-// Provide search functionality to child components
+
 provide('appModel', {
   value: searchQuery,
   update: (newValue: string) => {
@@ -56,7 +56,7 @@ provide('appModel', {
   }
 })
 
-// Login/logout handler
+
 async function onClick() {
   if (user.isAuthorized) {
     user.logout()
@@ -66,10 +66,10 @@ async function onClick() {
   }
 }
 
-// FILTER MOVIES LOCALLY based on search query
+
 function filterMovies(query: string) {
   if (!query.trim()) {
-    // If empty query, show empty results
+    
     filteredMovies.value = []
     return
   }
@@ -77,28 +77,28 @@ function filterMovies(query: string) {
   const searchTerm = query.toLowerCase().trim()
   
   filteredMovies.value = allMovies.value.filter(movie => {
-    // Search in title
+    
     const titleMatch = movie.title?.toLowerCase().includes(searchTerm) || 
                       movie.name?.toLowerCase().includes(searchTerm)
     
-    // Search in genres
+    
     const genreMatch = movie.genres?.some((genre: string) => 
       genre.toLowerCase().includes(searchTerm)
     )
     
-    // Search in description
+    
     const descriptionMatch = movie.description?.toLowerCase().includes(searchTerm) ||
                            movie.overview?.toLowerCase().includes(searchTerm)
     
-    // Search in year (convert to string for searching)
+    
     const yearMatch = movie.year?.toString().includes(searchTerm) ||
                      movie.releaseYear?.toString().includes(searchTerm)
     
     return titleMatch || genreMatch || descriptionMatch || yearMatch
-  }).slice(0, 5) // Show only first 5 results
+  }).slice(0, 5) 
 }
 
-// Get all movies (for initial load and when no search query)
+
 async function getAllMovies() {
   try {
     isLoading.value = true
@@ -112,7 +112,6 @@ async function getAllMovies() {
 
     if (response.ok) {
       const data = await response.json()
-      // Store all movies
       allMovies.value = data.movies || data.items || data || []
     } else {
       allMovies.value = []
@@ -133,17 +132,14 @@ function selectMovie(movie: any) {
   }
 }
 
-// Mobile search functionality
 const showMobileSearch = ref(false)
 const showMobileInput = ref(false)
 
-// Toggle mobile search input visibility
 function toggleMobileSearch() {
   if (window.innerWidth <= 768) {
     showMobileInput.value = !showMobileInput.value
     showSearchDropdown.value = showMobileInput.value
     
-    // Focus search input when opening on mobile
     if (showMobileInput.value) {
       nextTick(() => {
         const searchInput = document.querySelector('.mobile-search-input') as HTMLInputElement
@@ -157,16 +153,14 @@ function toggleMobileSearch() {
   }
 }
 
-// Update openSearchDropdown to handle mobile
+
 function openSearchDropdown() {
   showSearchDropdown.value = true
-  // Apply current filter when dropdown opens
   if (searchQuery.value) {
     filterMovies(searchQuery.value)
   }
 }
 
-// Update closeSearchDropdown
 function closeSearchDropdown() {
   showSearchDropdown.value = false
   if (window.innerWidth <= 768) {
@@ -174,7 +168,6 @@ function closeSearchDropdown() {
   }
 }
 
-// Update handleClickOutside to account for mobile
 function handleClickOutside(event: Event) {
   const target = event.target as HTMLElement
   if (!target.closest('.search-container') && 
@@ -184,7 +177,7 @@ function handleClickOutside(event: Event) {
   }
 }
 
-// Add event listeners
+
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
   document.addEventListener('keydown', (event) => {
@@ -220,7 +213,6 @@ onUnmounted(() => {
       </router-link>
   
     <div class="search-container">
-      <!-- Desktop Search Input (visible on larger screens) -->
       <div class="search desktop-search">
         <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M16.3591 14.6168L20.6418 18.8995L19.2276 20.3137L14.9449 16.031C13.405 17.263 11.4521 18 9.32812 18C4.36013 18 0.328125 13.968 0.328125 9C0.328125 4.032 4.36013 0 9.32812 0C14.2961 0 18.3281 4.032 18.3281 9C18.3281 11.124 17.5911 13.0769 16.3591 14.6168ZM14.3528 13.8748C15.5756 12.6146 16.3281 10.8956 16.3281 9C16.3281 5.1325 13.1956 2 9.32812 2C5.46062 2 2.32812 5.1325 2.32812 9C2.32812 12.8675 5.46062 16 9.32812 16C11.2237 16 12.9427 15.2475 14.2029 14.0247L14.3528 13.8748Z" fill="white" fill-opacity="0.5" />
@@ -234,14 +226,12 @@ onUnmounted(() => {
         />
       </div>
 
-      <!-- Mobile Search Icon (visible on smaller screens) -->
       <div class="mobile-search-icon" @click="toggleMobileSearch">
         <svg class="links__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z" fill="white" />
         </svg>
       </div>
 
-      <!-- Mobile Search Input (appears when icon is clicked) -->
       <div v-if="showMobileInput" class="mobile-search-input-container">
         <div class="search mobile-search">
           <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -258,7 +248,6 @@ onUnmounted(() => {
         </div>
       </div>
         
-      <!-- Search Dropdown (shared for both desktop and mobile) -->
       <div v-if="showSearchDropdown" class="search-dropdown">
         <div v-if="isLoading" class="dropdown-loading">
           <div class="loading-spinner"></div>
@@ -501,7 +490,7 @@ onUnmounted(() => {
   color: white;
 }
 
-/* Search dropdown styles */
+
 .search-dropdown {
   position: absolute;
   top: 100%;
@@ -517,7 +506,6 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-/* Other dropdown styles remain the same... */
 
 /* Адаптив */
 @media (max-width: 768px) {

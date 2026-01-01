@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-// Define interfaces for your form data
 export interface UserPreferences {
   newsletter: boolean
   updates: boolean
@@ -17,7 +16,6 @@ export interface FormData {
 }
 
 export const useFormStore = defineStore('form', () => {
-  // State with TypeScript types
   const formData = ref<FormData>({
     name: '',
     email: '',
@@ -30,7 +28,7 @@ export const useFormStore = defineStore('form', () => {
     subscriptionType: 'basic'
   })
 
-  // Actions with proper typing
+  
   const setFormData = (data: Partial<FormData>): void => {
     formData.value = { ...formData.value, ...data }
   }
@@ -60,7 +58,6 @@ export const useFormStore = defineStore('form', () => {
     }
   }
 
-  // Getters with return types
   const getFormData = (): FormData => formData.value
   
   const isFormValid = (): boolean => {

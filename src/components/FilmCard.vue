@@ -36,7 +36,6 @@
                            <svg class="line" width="239" height="2" viewBox="0 0 239 2" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M239 1H0" stroke="white" stroke-opacity="0.5" stroke-dasharray="2 2" />
 </svg>
-               <!-- {{ product.languages }}-->
                  English
             </div>
             <div class="movie__description-item">
@@ -310,21 +309,7 @@ const ratingClass = computed(() => {
      border: none;
     outline: none;
 }
-/*
-.update{
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    border-radius: 28px;
-    padding: 16px 22px;
-    background: #333;
-    max-width: 68px;
-    height: 56px;
-    border: none;
-    outline: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-*/
+
 .film-about{
     font-family: var(--font-family);
     font-weight: 700;

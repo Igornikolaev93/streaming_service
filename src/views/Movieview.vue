@@ -33,7 +33,7 @@ const message = ref('')
 
  const res = await fetch('https://cinemaguide.skillbox.cc/movie/top10')
  const data= await res.json()
-products.value = Object.assign({},data)
+ products.value = Object.assign({},data)
  isLoading.value = false
 
 }

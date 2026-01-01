@@ -36,12 +36,6 @@ const elem= (el:any)=>{
   router.push(`/movie/${el.id}`)
 
 }
-
-
-
-
-
-
 </script>
 <template>
     <h1>

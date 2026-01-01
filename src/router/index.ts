@@ -36,26 +36,18 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../components/Login.vue'),
-      //component:useModalRouter(BaseModal),
       meta: {requiredAuth: false}
     }]
 })
 
-//router.beforeEach((to) => {
-  //const user = useUserStore()
-
- //if (to.meta.requiredAuth && !user.isAuthorized) {
- //  return '/'
-// }
-//})
 
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = localStorage.getItem('token'); // Or however you store auth status
+    const isAuthenticated = localStorage.getItem('token');
 if (to.meta.requiresAuth && !isAuthenticated) {
-    // Redirect to login if not authenticated
+    
     next({ name: 'login' });
 } else {
-    next(); // Proceed to the route
+    next(); 
 }
 });
 
