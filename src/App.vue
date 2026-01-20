@@ -23,7 +23,7 @@ const elem= (el:any)=>{
 
 
 onMounted(async () => {
-  await user.checkAuthStatus()
+ await user.checkAuthStatus()
   
   getAllMovies()
 })
